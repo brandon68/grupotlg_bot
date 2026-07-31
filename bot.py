@@ -24,7 +24,7 @@ TOKEN = os.environ["8793668537:AAFWNp-dDrPWIoB3hco3dvj3NPVRBAlAt9I"]
 
 # Ejemplo:
 # https://mi-bot-production.up.railway.app
-RAILWAY_PUBLIC_DOMAIN = os.environ["RAILWAY_PUBLIC_DOMAIN"]
+RAILWAY_PUBLIC_DOMAIN = os.environ["grupotlgbot-production.up.railway.app"]
 
 PORT = int(os.getenv("PORT", "8080"))
 
