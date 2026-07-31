@@ -395,7 +395,7 @@ async def bienvenida(
             "con respeto en la comunidad.\n\n"
             "📌 Revisa las reglas del grupo.\n"
             "🔴 Evita estafas y realiza tratos con admin @juanper33z.\n"
-            "🔴 Todos pueden realizar ventas de sus productos a exepcion de: \n"
+            "🔴 Todos pueden realizar ventas de sus productos a excepción de: \n"
             "- accesos, bot spam y cuentas steming \n"
             "💬 Convive respetuosamente con los demás miembros.\n\n"
             f"👥 Ahora somos <b>{await context.bot.get_chat_member_count(chat.id)}</b> miembros.\n\n"
