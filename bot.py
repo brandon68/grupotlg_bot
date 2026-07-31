@@ -20,15 +20,15 @@ from telegram.ext import (
 # CONFIGURACIÓN
 # ============================================================
 
-TOKEN = os.environ["8793668537:AAFWNp-dDrPWIoB3hco3dvj3NPVRBAlAt9I"]
+TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 
 # Ejemplo:
 # https://mi-bot-production.up.railway.app
-RAILWAY_PUBLIC_DOMAIN = os.environ["grupotlgbot-production.up.railway.app"]
+RAILWAY_PUBLIC_DOMAIN = os.environ["RAILWAY_PUBLIC_DOMAIN"]
 
 PORT = int(os.getenv("PORT", "8080"))
 
-WEBHOOK_SECRET = os.environ["WEBHOOK_SECRET=binbot_9Rk82mP4xT7qL6nV3sA1"]
+WEBHOOK_SECRET = os.environ["WEBHOOK_SECRET"]
 WEBHOOK_PATH = f"telegram/{WEBHOOK_SECRET}"
 WEBHOOK_URL = f"https://{RAILWAY_PUBLIC_DOMAIN}/{WEBHOOK_PATH}"
 
