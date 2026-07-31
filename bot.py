@@ -161,37 +161,76 @@ async def consultar_bin(bin_number: str) -> dict[str, Any]:
     }
 
 
+def bandera_pais(codigo: Any) -> str:
+    codigo = limpiar(codigo, "").upper()
+
+    if len(codigo) != 2 or not codigo.isalpha():
+        return "🌎"
+
+    return "".join(
+        chr(ord(letra) + 127397)
+        for letra in codigo
+    )
+
+
 def formatear_resultado(datos: dict[str, Any]) -> str:
-    campos = [
-        ("BIN", datos.get("bin")),
-        ("Issuing Bank", datos.get("bank_name")),
-        ("Card Brand", datos.get("scheme")),
-        ("Card Type", datos.get("card_type")),
-        ("Card Level", datos.get("card_level")),
-        ("Prepaid", datos.get("prepaid")),
-        ("ISO Country Name", datos.get("country_name")),
-        ("ISO Country A2", datos.get("country_alpha2")),
-        ("ISO Country Number", datos.get("country_numeric")),
-        ("Currency", datos.get("currency")),
-        ("Bank City", datos.get("bank_city")),
-        ("Issuers Website", datos.get("bank_url")),
-        ("Issuers Contact", datos.get("bank_phone")),
-    ]
+    bin_number = html.escape(limpiar(datos.get("bin")))
+    banco = html.escape(mayusculas(datos.get("bank_name")))
+    marca = html.escape(mayusculas(datos.get("scheme")))
+    tipo = html.escape(mayusculas(datos.get("card_type")))
+    nivel = html.escape(mayusculas(datos.get("card_level")))
+    prepago = html.escape(mayusculas(datos.get("prepaid")))
 
-    lineas = ["💳 <b>BIN CHECKER</b>", ""]
+    pais = html.escape(mayusculas(datos.get("country_name")))
+    codigo_pais = mayusculas(datos.get("country_alpha2"))
+    numero_pais = html.escape(mayusculas(datos.get("country_numeric")))
+    moneda = html.escape(mayusculas(datos.get("currency")))
 
-    for nombre, valor in campos:
-        if nombre == "Issuers Website":
-            valor_limpio = limpiar(valor)
-        else:
-            valor_limpio = mayusculas(valor)
+    ciudad = html.escape(mayusculas(datos.get("bank_city")))
+    telefono = html.escape(mayusculas(datos.get("bank_phone")))
 
-        lineas.append(
-            f"<b>{html.escape(nombre)}:</b> "
-            f"<code>{html.escape(valor_limpio)}</code>"
+    web_banco = limpiar(datos.get("bank_url"))
+    bandera = bandera_pais(datos.get("country_alpha2"))
+
+    if web_banco != "No disponible":
+        if not web_banco.startswith(("http://", "https://")):
+            web_banco = f"https://{web_banco}"
+
+        sitio_web = (
+            f'<a href="{html.escape(web_banco, quote=True)}">'
+            "Abrir sitio del banco</a>"
         )
+    else:
+        sitio_web = "NO DISPONIBLE"
 
-    return "\n".join(lineas)
+    return (
+        "💳 <b>BIN CHECKER</b>\n"
+        "━━━━━━━━━━━━━━━━━━\n\n"
+
+        f"🔢 <b>BIN:</b> <code>{bin_number}</code>\n\n"
+
+        "🏦 <b>INFORMACIÓN BANCARIA</b>\n"
+        f"├ <b>Banco:</b> {banco}\n"
+        f"├ <b>Marca:</b> {marca}\n"
+        f"├ <b>Tipo:</b> {tipo}\n"
+        f"├ <b>Nivel:</b> {nivel}\n"
+        f"└ <b>Prepago:</b> {prepago}\n\n"
+
+        f"{bandera} <b>INFORMACIÓN DEL PAÍS</b>\n"
+        f"├ <b>País:</b> {pais}\n"
+        f"├ <b>Código:</b> <code>{html.escape(codigo_pais)}</code>\n"
+        f"├ <b>ISO numérico:</b> <code>{numero_pais}</code>\n"
+        f"└ <b>Moneda:</b> <code>{moneda}</code>\n\n"
+
+        "📞 <b>CONTACTO DEL EMISOR</b>\n"
+        f"├ <b>Ciudad:</b> {ciudad}\n"
+        f"├ <b>Sitio web:</b> {sitio_web}\n"
+        f"└ <b>Teléfono:</b> {telefono}\n\n"
+
+        "━━━━━━━━━━━━━━━━━━\n"
+        "🤖 Bot de <a href=\"https://t.me/juanper33z\">"
+        "@juanper33z</a>"
+    )
 
 
 # ============================================================
