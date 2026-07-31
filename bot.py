@@ -28,7 +28,7 @@ RAILWAY_PUBLIC_DOMAIN = os.environ["grupotlgbot-production.up.railway.app"]
 
 PORT = int(os.getenv("PORT", "8080"))
 
-WEBHOOK_SECRET = os.environ["WEBHOOK_SECRET"]
+WEBHOOK_SECRET = os.environ["WEBHOOK_SECRET=binbot_9Rk82mP4xT7qL6nV3sA1"]
 WEBHOOK_PATH = f"telegram/{WEBHOOK_SECRET}"
 WEBHOOK_URL = f"https://{RAILWAY_PUBLIC_DOMAIN}/{WEBHOOK_PATH}"
 
