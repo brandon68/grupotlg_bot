@@ -13,6 +13,8 @@ from telegram.ext import (
     Application,
     CommandHandler,
     ContextTypes,
+    MessageHandler,
+    filters,
 )
 
 
@@ -349,7 +351,64 @@ async def comando_bin(
         await estado.edit_text(
             "⚠️ Ocurrió un error al consultar el BIN."
         )
+        
+######################FUNCION DE BIENVENIDA############################
+#######################################################################
+#######################################################################
 
+async def bienvenida(
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE,
+) -> None:
+    mensaje = update.effective_message
+    chat = update.effective_chat
+
+    if mensaje is None or chat is None:
+        return
+
+    # Si configuraste ALLOWED_CHAT_ID, evita responder en otros grupos.
+    if ALLOWED_CHAT_ID is not None and chat.id != ALLOWED_CHAT_ID:
+        return
+
+    for usuario in mensaje.new_chat_members:
+        # Evita que el bot se dé la bienvenida a sí mismo.
+        if usuario.id == context.bot.id:
+            continue
+
+        nombre = html.escape(usuario.full_name)
+
+        if usuario.username:
+            usuario_texto = (
+                f'<a href="https://t.me/{html.escape(usuario.username)}">'
+                f"@{html.escape(usuario.username)}</a>"
+            )
+        else:
+            usuario_texto = (
+                f'<a href="tg://user?id={usuario.id}">{nombre}</a>'
+            )
+
+        texto_bienvenida = (
+            "👋 <b>¡BIENVENIDO AL GRUPO!</b>\n"
+            "━━━━━━━━━━━━━━━━━━\n\n"
+            f"Hola, {usuario_texto} 🎉\n\n"
+            "Esperamos que disfrutes tu estancia y participes "
+            "con respeto en la comunidad.\n\n"
+            "📌 Revisa las reglas del grupo.\n"
+            "🔴 Evita estafas y realiza tratos con admin @juanper33z.\n"
+            "🔴 Todos pueden realizar ventas de sus productos a exepcion de: \n"
+            "- accesos, bot spam y cuentas steming \n"
+            "💬 Convive respetuosamente con los demás miembros.\n\n"
+            f"👥 Ahora somos <b>{await context.bot.get_chat_member_count(chat.id)}</b> miembros.\n\n"
+            "━━━━━━━━━━━━━━━━━━\n"
+            '🤖 Bot de <a href="https://t.me/juanper33z">'
+            "@juanper33z</a>"
+        )
+
+        await mensaje.reply_text(
+            texto_bienvenida,
+            parse_mode=ParseMode.HTML,
+            disable_web_page_preview=True,
+        )
 
 # ============================================================
 # INICIO
@@ -366,6 +425,12 @@ def main() -> None:
     application.add_handler(CommandHandler("help", start))
     application.add_handler(CommandHandler("chatid", chatid))
     application.add_handler(CommandHandler("bin", comando_bin))
+    application.add_handler(
+        MessageHandler(
+            filters.StatusUpdate.NEW_CHAT_MEMBERS,
+            bienvenida,
+        )
+    )
 
     logger.info("Iniciando webhook en %s", WEBHOOK_URL)
 
