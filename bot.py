@@ -48,12 +48,12 @@ ALLOWED_CHAT_ID = (
 ZONA_HORARIA = pytz.timezone("America/Mexico_City")
 
 # ============================================================
-# CATÁLOGO DE PUBLICIDADES DIARIAS CON TUS IMÁGENES SUBIDAS
+# CATÁLOGO DE PRUEBAS DE PUBLICIDAD (19:00, 19:05, 19:10)
 # ============================================================
 CATALOGO_PUBLICIDAD = [
     {
-        "hora": (18, 30),  # Se envía diariamente a las 10:00 AM
-        "imagen": "ANUNCIOSPAM.jpg",  # Tu primera imagen
+        "hora": (19, 0),  # 07:00 PM
+        "imagen": "ANUNCIOSPAM.jpg",
         "texto": (
             "🔥 <b>¡BOT SPAM PC Y TELEGRAM!</b> 🔥\n\n"
             "Servicios disponibles las 24 horas del día con total garantía.\n\n"
@@ -61,12 +61,24 @@ CATALOGO_PUBLICIDAD = [
         )
     },
     {
-        "hora": (18, 40),  # Se envía diariamente a las 06:00 PM (18:00 hrs)
-        "imagen": "ANUNCIOIAREJAS.jpg",  # Tu segunda imagen
+        "hora": (19, 5),  # 07:05 PM
+        "imagen": "ANUNCIOIAREJAS.jpg",
         "texto": (
             "⚡ <b>¡CHECKER CCS TELEGRAM!</b> ⚡\n\n"
             "Aprovecha nuestras promociones exclusivas para la comunidad.\n\n"
             "📩 Para más detalles consulta con @juanper33z"
+        )
+    },
+    {
+        "hora": (19, 10),  # 07:10 PM
+        "imagen": "ANUNCIOREDES.png",  # Tu archivo en formato PNG
+        "texto": (
+            "🚀 <b>¡IMPULSA TUS REDES SOCIALES!</b> 🚀\n\n"
+            "👥 Seguidores | 👍 Likes | 👁️ Views | 💬 Comentarios\n\n"
+            "🔹 Facebook • TikTok • YouTube\n"
+            "🔹 Instagram • Twitter (X) • Telegram\n\n"
+            "⚡ Entrega rápida y 100% segura (Sin contraseñas).\n"
+            "📩 Cotizaciones y pedidos directos con @juanper33z"
         )
     }
 ]
