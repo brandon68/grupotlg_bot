@@ -52,7 +52,7 @@ ZONA_HORARIA = pytz.timezone("America/Mexico_City")
 # ============================================================
 CATALOGO_PUBLICIDAD = [
     {
-        "hora": (19, 0),  # 07:00 PM
+        "hora": (13, 0),  # 01:00 PM
         "imagen": "ANUNCIOSPAM.jpg",
         "texto": (
             "🔥 <b>¡BOT SPAM PC Y TELEGRAM!</b> 🔥\n\n"
@@ -61,7 +61,7 @@ CATALOGO_PUBLICIDAD = [
         )
     },
     {
-        "hora": (21, 46),  # 21:43 PM
+        "hora": (13, 10),  # 01:10 PM
         "imagen": "ANUNCIOTAREJTAS.jpg",
         "texto": (
             "⚡ <b>¡CHECKER CCS TELEGRAM!</b> ⚡\n\n"
@@ -70,7 +70,7 @@ CATALOGO_PUBLICIDAD = [
         )
     },
     {
-        "hora": (19, 10),  # 07:10 PM
+        "hora": (13, 20),  # 01:15 PM
         "imagen": "ANUNCIOREDES.png",  # Tu archivo en formato PNG
         "texto": (
             "🚀 <b>¡IMPULSA TUS REDES SOCIALES!</b> 🚀\n\n"
