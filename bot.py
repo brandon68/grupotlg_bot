@@ -1,3 +1,4 @@
+import datetime
 import html
 import logging
 import os
@@ -7,6 +8,7 @@ from collections import defaultdict, deque
 from typing import Any
 
 import httpx
+import pytz
 from telegram import Update
 from telegram.constants import ChatType, ParseMode
 from telegram.ext import (
@@ -17,15 +19,13 @@ from telegram.ext import (
     filters,
 )
 
-
 # ============================================================
 # CONFIGURACIÓN
 # ============================================================
 
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 
-# Ejemplo:
-# https://mi-bot-production.up.railway.app
+# Ejemplo: https://mi-bot-production.up.railway.app
 RAILWAY_PUBLIC_DOMAIN = os.environ["RAILWAY_PUBLIC_DOMAIN"]
 
 PORT = int(os.getenv("PORT", "8080"))
@@ -36,8 +36,7 @@ WEBHOOK_URL = f"https://{RAILWAY_PUBLIC_DOMAIN}/{WEBHOOK_PATH}"
 
 BINLIST_URL = "https://lookup.binlist.net/{bin_number}"
 
-# Opcional: restringir el bot a un grupo específico.
-# Déjalo vacío inicialmente para obtener el ID con /chatid.
+# Restringir el bot a un grupo específico (Obligatorio para la publicidad)
 ALLOWED_CHAT_ID_RAW = os.getenv("ALLOWED_CHAT_ID", "").strip()
 ALLOWED_CHAT_ID = (
     int(ALLOWED_CHAT_ID_RAW)
@@ -45,12 +44,38 @@ ALLOWED_CHAT_ID = (
     else None
 )
 
-# Límite por usuario.
+# Configura tu zona horaria
+ZONA_HORARIA = pytz.timezone("America/Mexico_City")
+
+# ============================================================
+# CATÁLOGO DE PUBLICIDADES DIARIAS CON TUS IMÁGENES SUBIDAS
+# ============================================================
+CATALOGO_PUBLICIDAD = [
+    {
+        "hora": (18, 30),  # Se envía diariamente a las 10:00 AM
+        "imagen": "ANUNCIOSPAM.jpg",  # Tu primera imagen
+        "texto": (
+            "🔥 <b>¡OFERTA ESPECIAL DEL DÍA!</b> 🔥\n\n"
+            "Servicios disponibles las 24 horas del día con total garantía.\n\n"
+            "📩 Contáctanos directamente con admin @juanper33z"
+        )
+    },
+    {
+        "hora": (18, 40),  # Se envía diariamente a las 06:00 PM (18:00 hrs)
+        "imagen": "ANUNCIOIAREJAS.jpg",  # Tu segunda imagen
+        "texto": (
+            "⚡ <b>¡NO TE LO PIERDAS!</b> ⚡\n\n"
+            "Aprovecha nuestras promociones exclusivas para la comunidad.\n\n"
+            "📩 Para más detalles consulta con @juanper33z"
+        )
+    }
+]
+
+# Límite de consultas por usuario
 MAX_REQUESTS = 5
 RATE_LIMIT_SECONDS = 60
 
 solicitudes: dict[int, deque[float]] = defaultdict(deque)
-
 
 logging.basicConfig(
     level=logging.INFO,
@@ -230,9 +255,46 @@ def formatear_resultado(datos: dict[str, Any]) -> str:
         f"└ <b>Teléfono:</b> {telefono}\n\n"
 
         "━━━━━━━━━━━━━━━━━━\n"
-        "🤖 Bot de <a href=\"https://t.me/juanper33z\">"
+        '🤖 Bot de <a href="https://t.me/juanper33z">'
         "@juanper33z</a>"
     )
+
+
+# ============================================================
+# ENVIAR ANUNCIO PROGRAMADO
+# ============================================================
+
+async def enviar_anuncio(context: ContextTypes.DEFAULT_TYPE) -> None:
+    if ALLOWED_CHAT_ID is None:
+        logger.warning("No se definió ALLOWED_CHAT_ID. No se puede enviar la publicidad.")
+        return
+
+    anuncio = context.job.data
+    imagen = anuncio["imagen"]
+    texto = anuncio["texto"]
+
+    try:
+        if imagen.startswith(("http://", "https://")):
+            await context.bot.send_photo(
+                chat_id=ALLOWED_CHAT_ID,
+                photo=imagen,
+                caption=texto,
+                parse_mode=ParseMode.HTML,
+            )
+        else:
+            with open(imagen, "rb") as foto:
+                await context.bot.send_photo(
+                    chat_id=ALLOWED_CHAT_ID,
+                    photo=foto,
+                    caption=texto,
+                    parse_mode=ParseMode.HTML,
+                )
+        logger.info("Publicidad enviada con éxito al grupo %s", ALLOWED_CHAT_ID)
+
+    except FileNotFoundError:
+        logger.error("No se encontró la imagen local: %s", imagen)
+    except Exception as e:
+        logger.exception("Error al enviar la publicidad: %s", e)
 
 
 # ============================================================
@@ -351,10 +413,7 @@ async def comando_bin(
         await estado.edit_text(
             "⚠️ Ocurrió un error al consultar el BIN."
         )
-        
-######################FUNCION DE BIENVENIDA############################
-#######################################################################
-#######################################################################
+
 
 async def bienvenida(
     update: Update,
@@ -366,12 +425,10 @@ async def bienvenida(
     if mensaje is None or chat is None:
         return
 
-    # Si configuraste ALLOWED_CHAT_ID, evita responder en otros grupos.
     if ALLOWED_CHAT_ID is not None and chat.id != ALLOWED_CHAT_ID:
         return
 
     for usuario in mensaje.new_chat_members:
-        # Evita que el bot se dé la bienvenida a sí mismo.
         if usuario.id == context.bot.id:
             continue
 
@@ -410,6 +467,7 @@ async def bienvenida(
             disable_web_page_preview=True,
         )
 
+
 # ============================================================
 # INICIO
 # ============================================================
@@ -421,6 +479,7 @@ def main() -> None:
         .build()
     )
 
+    # Handlers
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", start))
     application.add_handler(CommandHandler("chatid", chatid))
@@ -431,6 +490,25 @@ def main() -> None:
             bienvenida,
         )
     )
+
+    # Programar todos los anuncios del catálogo
+    if application.job_queue:
+        for index, anuncio in enumerate(CATALOGO_PUBLICIDAD):
+            hora, minuto = anuncio["hora"]
+
+            tiempo_programado = datetime.time(
+                hour=hora,
+                minute=minuto,
+                tzinfo=ZONA_HORARIA
+            )
+
+            application.job_queue.run_daily(
+                enviar_anuncio,
+                time=tiempo_programado,
+                data=anuncio,
+                name=f"publicidad_{index}"
+            )
+            logger.info("Publicidad %d programada a las %02d:%02d (%s)", index + 1, hora, minuto, ZONA_HORARIA)
 
     logger.info("Iniciando webhook en %s", WEBHOOK_URL)
 
