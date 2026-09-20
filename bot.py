@@ -61,7 +61,7 @@ CATALOGO_PUBLICIDAD = [
         )
     },
     {
-        "hora": (19, 5),  # 21:43 PM
+        "hora": (21, 46),  # 21:43 PM
         "imagen": "ANUNCIOTAREJTAS.jpg",
         "texto": (
             "⚡ <b>¡CHECKER CCS TELEGRAM!</b> ⚡\n\n"
