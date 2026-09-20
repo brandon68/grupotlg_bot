@@ -55,16 +55,16 @@ CATALOGO_PUBLICIDAD = [
         "hora": (18, 30),  # Se envía diariamente a las 10:00 AM
         "imagen": "ANUNCIOSPAM.jpg",  # Tu primera imagen
         "texto": (
-            "🔥 <b>¡OFERTA ESPECIAL DEL DÍA!</b> 🔥\n\n"
+            "🔥 <b>¡BOT SPAM PC Y TELEGRAM!</b> 🔥\n\n"
             "Servicios disponibles las 24 horas del día con total garantía.\n\n"
-            "📩 Contáctanos directamente con admin @juanper33z"
+            "📩 Compra directamente con admin @juanper33z"
         )
     },
     {
         "hora": (18, 40),  # Se envía diariamente a las 06:00 PM (18:00 hrs)
         "imagen": "ANUNCIOIAREJAS.jpg",  # Tu segunda imagen
         "texto": (
-            "⚡ <b>¡NO TE LO PIERDAS!</b> ⚡\n\n"
+            "⚡ <b>¡CHECKER CCS TELEGRAM!</b> ⚡\n\n"
             "Aprovecha nuestras promociones exclusivas para la comunidad.\n\n"
             "📩 Para más detalles consulta con @juanper33z"
         )
