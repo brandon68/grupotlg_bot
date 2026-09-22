@@ -88,7 +88,7 @@ CATALOGO_PUBLICIDAD = [
         )
     },
     {
-        "hora": (11, 24),  # 01:25 PM
+        "hora": (11, 30),  # 01:25 PM
         "imagen": None,  # <--- SE CAMBIA A None PARA QUE SEA SOLO TEXTO
         "texto": (
             "🔥 <b>¡EL MEJOR ENTRETENIMIENTO AL MEJOR PRECIO!</b> 🔥\n\n"
@@ -313,18 +313,20 @@ async def enviar_anuncio(context: ContextTypes.DEFAULT_TYPE) -> None:
         return
 
     anuncio = context.job.data
-    imagen = anuncio["imagen"]
+    imagen = anuncio.get("imagen")
     texto = anuncio["texto"]
 
     try:
-        if imagen.startswith(("http://", "https://")):
+        # Si tiene URL remota
+        if imagen and imagen.startswith(("http://", "https://")):
             await context.bot.send_photo(
                 chat_id=ALLOWED_CHAT_ID,
                 photo=imagen,
                 caption=texto,
                 parse_mode=ParseMode.HTML,
             )
-        else:
+        # Si tiene ruta local y el archivo existe
+        elif imagen and os.path.exists(imagen):
             with open(imagen, "rb") as foto:
                 await context.bot.send_photo(
                     chat_id=ALLOWED_CHAT_ID,
@@ -332,13 +334,19 @@ async def enviar_anuncio(context: ContextTypes.DEFAULT_TYPE) -> None:
                     caption=texto,
                     parse_mode=ParseMode.HTML,
                 )
+        # Si "imagen" es None o la imagen local no existe -> ENVÍA SOLO TEXTO
+        else:
+            await context.bot.send_message(
+                chat_id=ALLOWED_CHAT_ID,
+                text=texto,
+                parse_mode=ParseMode.HTML,
+                disable_web_page_preview=True,
+            )
+
         logger.info("Publicidad enviada con éxito al grupo %s", ALLOWED_CHAT_ID)
 
-    except FileNotFoundError:
-        logger.error("No se encontró la imagen local: %s", imagen)
     except Exception as e:
         logger.exception("Error al enviar la publicidad: %s", e)
-
 
 # ============================================================
 # COMANDOS
