@@ -48,37 +48,68 @@ ALLOWED_CHAT_ID = (
 ZONA_HORARIA = pytz.timezone("America/Mexico_City")
 
 # ============================================================
-# CATÁLOGO DE PRUEBAS DE PUBLICIDAD (19:00, 19:05, 19:10)
+# CATÁLOGO DE PRUEBAS DE PUBLICIDAD (13:00, 13:10, 13:20, 13:25)
 # ============================================================
 CATALOGO_PUBLICIDAD = [
     {
-        "hora": (13, 0),  # 01:00 PM
+        "hora": (11, 20),  # 01:00 PM
         "imagen": "ANUNCIOSPAM.jpg",
         "texto": (
             "🔥 <b>¡BOT SPAM PC Y TELEGRAM!</b> 🔥\n\n"
             "Servicios disponibles las 24 horas del día con total garantía.\n\n"
-            "📩 Compra directamente con admin @juanper33z"
+            "📩 <i>¡busco comis, se acepta trato con admin!</i>"
+            "📲 <b>Atención Directa:</b> @juanper33z\n"
+            '👥 <b>Únete a nuestro grupo:</b> <a href="https://t.me/+kIN_CgyaWP5lZDUx">Haz clic aquí para unirte</a>'
         )
     },
     {
-        "hora": (13, 10),  # 01:10 PM
+        "hora": (11, 18),  # 01:10 PM
         "imagen": "ANUNCIOTAREJTAS.jpg",
         "texto": (
             "⚡ <b>¡CHECKER CCS TELEGRAM!</b> ⚡\n\n"
             "Aprovecha nuestras promociones exclusivas para la comunidad.\n\n"
-            "📩 Para más detalles consulta con @juanper33z"
+            "📩 <i>¡busco comis, se acepta trato con admin!</i>"
+            "📲 <b>Atención Directa:</b> @juanper33z\n"
+            '👥 <b>Únete a nuestro grupo:</b> <a href="https://t.me/+kIN_CgyaWP5lZDUx">Haz clic aquí para unirte</a>'
         )
     },
     {
-        "hora": (13, 20),  # 01:15 PM
+        "hora": (11, 15),  # 01:20 PM
         "imagen": "ANUNCIOREDES.png",  # Tu archivo en formato PNG
         "texto": (
             "🚀 <b>¡IMPULSA TUS REDES SOCIALES!</b> 🚀\n\n"
             "👥 Seguidores | 👍 Likes | 👁️ Views | 💬 Comentarios\n\n"
             "🔹 Facebook • TikTok • YouTube\n"
             "🔹 Instagram • Twitter (X) • Telegram\n\n"
-            "⚡ Entrega rápida y 100% segura (Sin contraseñas).\n"
-            "📩 Cotizaciones y pedidos directos con @juanper33z"
+            "⚡ Entrega rápida y 100% segura (Sin contraseñas).\n\n"
+            "📲 <b>Atención Directa:</b> @juanper33z\n"
+            "📩 <i>¡busco comis, se acepta trato con admin!</i>"
+            '👥 <b>Únete a nuestro grupo:</b> <a href="https://t.me/+kIN_CgyaWP5lZDUx">Haz clic aquí para unirte</a>'
+        )
+    },
+    {
+        "hora": (11, 11),  # 01:25 PM
+        "imagen": "ANUNCIOSTREAMING.jpg",  # Tu imagen para el anuncio de cuentas
+        "texto": (
+            "🔥 <b>¡EL MEJOR ENTRETENIMIENTO AL MEJOR PRECIO!</b> 🔥\n\n"
+            "🍿 <i>Disfruta de tus series, películas, música, juegos e Inteligencia Artificial sin pagar de más.</i> 🍿\n\n"
+            "💎 <b>SERVICIOS DISPONIBLES:</b>\n"
+            "🎬 Netflix | Disney+ | Max | Prime Video\n"
+            "📺 Crunchyroll | VIX+ | YouTube Premium\n"
+            "🎵 Spotify Premium\n"
+            "🎮 Xbox Game Pass Ultimate\n"
+            "🤖 ChatGPT Plus | Gemini Advanced\n\n"
+            "✨ <i>¿Buscas otra plataforma? ¡Manejamos muchas más cuentas! Pregunta por la que necesites.</i>\n\n"
+            "━━━━━━━━━━━━━━━━━━━\n"
+            "💰 <b>PRECIOS ESPECIALES:</b>\n\n"
+            "📌 <b>1 MES:</b> $65 MXN\n"
+            "📌 <b>3 MESES:</b> $160 MXN\n"
+            "📌 <b>1 AÑO:</b> $350 MXN <i>(¡El mayor ahorro!)</i>\n"
+            "━━━━━━━━━━━━━━━━━━━\n\n"
+            "⚡ <b>Entrega inmediata y soporte garantizado.</b>\n\n"
+            "📲 <b>Atención Directa:</b> @juanper33z\n"
+            '👥 <b>Únete a nuestro grupo:</b> <a href="https://t.me/+kIN_CgyaWP5lZDUx">Haz clic aquí para unirte</a>\n\n'
+            "📩 <i>¡busco comis, se acepta trato con admin!</i>"
         )
     }
 ]
