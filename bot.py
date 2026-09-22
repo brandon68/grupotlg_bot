@@ -88,8 +88,8 @@ CATALOGO_PUBLICIDAD = [
         )
     },
     {
-        "hora": (11, 18),  # 01:25 PM
-        "imagen": "ANUNCIOSTREAMING.jpg",  # Tu imagen para el anuncio de cuentas
+        "hora": (11, 24),  # 01:25 PM
+        "imagen": None,  # <--- SE CAMBIA A None PARA QUE SEA SOLO TEXTO
         "texto": (
             "🔥 <b>¡EL MEJOR ENTRETENIMIENTO AL MEJOR PRECIO!</b> 🔥\n\n"
             "🍿 <i>Disfruta de tus series, películas, música, juegos e Inteligencia Artificial sin pagar de más.</i> 🍿\n\n"
